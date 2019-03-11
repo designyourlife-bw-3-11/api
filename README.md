@@ -115,8 +115,8 @@ reflections = [
 
 ## Todo:
 
-| Method | URL                         | Description                                                                                                                                                                                                                         |
-| ------ | --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET    | /api/user/activity/id       | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned. |
-| GET    | /api/user/activity-log/id   | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return the activity log matching the `id` provided                                                                           |
-| GET    | /api/user/reflection-log/id | Must provide `user`, a string matching username of a registered user. `id` is optional, if provided will return the reflection log matching the `id` provided.                                                                      |
+| Method | URL                          | Description                                                                                                                                                                                                                         |
+| ------ | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET    | /api/user/activities/id      | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned. |
+| GET    | /api/user/activity-logs/id   | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return the activity log matching the `id` provided                                                                           |
+| GET    | /api/user/reflection-logs/id | Must provide `user`, a string matching username of a registered user. `id` is optional, if provided will return the reflection log matching the `id` provided.                                                                      |
