@@ -1,4 +1,13 @@
 // Update with your config settings.
+const localPgConnection = {
+  // placeholder since there is no pg locally
+  host: "localhos",
+  database: "dgn-life",
+  user: "test",
+  password: "pass"
+};
+
+const prodDbConnection = process.env.DATABASE_URL || localPgConnection;
 
 module.exports = {
   development: {
@@ -17,17 +26,12 @@ module.exports = {
 
   production: {
     client: "postgresql",
-    connection: {
-      database: "my_db",
-      user: "username",
-      password: "password"
-    },
-    pool: {
-      min: 2,
-      max: 10
-    },
+    connection: prodDbConnection,
     migrations: {
-      tableName: "knex_migrations"
+      directory: "./data/migrations"
+    },
+    seeds: {
+      directory: "./data/seeds"
     }
   }
 };
