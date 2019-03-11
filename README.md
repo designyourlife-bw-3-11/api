@@ -20,7 +20,8 @@ Used for register and login
 ```js
 // single activity:
 activity = {
-  id: 1,
+  id: 1, // activity id
+  user_id: 0, // id matches user id of creator. 0 for starter activities (available to anyone)
   name: "first activity",
   description: "How about this activity?" // optional
 };
@@ -117,6 +118,6 @@ reflections = [
 
 | Method | URL                          | Description                                                                                                                                                                                                                         |
 | ------ | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET    | /api/user/activities/id      | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned. |
-| GET    | /api/user/activity-logs/id   | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return the activity log matching the `id` provided                                                                           |
-| GET    | /api/user/reflection-logs/id | Must provide `user`, a string matching username of a registered user. `id` is optional, if provided will return the reflection log matching the `id` provided.                                                                      |
+| GET    | /api/activities/user/id      | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned. |
+| GET    | /api/activity-logs/user/id   | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return the activity log matching the `id` provided                                                                           |
+| GET    | /api/reflection-logs/user/id | Must provide `user`, a string matching username of a registered user. `id` is optional, if provided will return the reflection log matching the `id` provided.                                                                      |

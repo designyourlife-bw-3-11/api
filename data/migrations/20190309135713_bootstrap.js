@@ -22,6 +22,7 @@ exports.up = function(knex, Promise) {
       })
       .createTable("activities", tbl => {
         tbl.increments();
+        tbl.integer("user_id");
         tbl
           .string("name", 128)
           .notNullable()
