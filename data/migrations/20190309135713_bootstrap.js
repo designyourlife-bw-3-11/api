@@ -20,6 +20,16 @@ exports.up = function(knex, Promise) {
         tbl.string("password", 128).notNullable();
         tbl.timestamps(true, true);
       })
+      .createTable("activities", tbl => {
+        tbl.increments();
+        tbl.integer("user_id");
+        tbl
+          .string("name", 128)
+          .notNullable()
+          .unique();
+        tbl.text("description");
+        tbl.timestamps(true, true);
+      })
   );
 };
 
