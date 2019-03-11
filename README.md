@@ -108,16 +108,16 @@ reflections = [
 
 ## The API publishes the following endpoints
 
-| Method | URL                | Description                                                                        |
-| ------ | ------------------ | ---------------------------------------------------------------------------------- |
-| GET    | /api/              | Returns JSON: `{ "message": "Server says hi." }` if server is running              |
-| GET    | /api/testDb        | Returns JSON with some test data if the server's connection to the database is OK. |
-| POST   | /api/auth/register | Expects JSON conforming to spec: `User data for auth routes`                       |
+| Method | URL                     | Description                                                                                                                                                                                                                         |
+| ------ | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET    | /api/                   | Returns JSON: `{ "message": "Server says hi." }` if server is running                                                                                                                                                               |
+| GET    | /api/testDb             | Returns JSON with some test data if the server's connection to the database is OK.                                                                                                                                                  |
+| POST   | /api/auth/register      | Expects JSON conforming to spec: `User data for auth routes`                                                                                                                                                                        |
+| GET    | /api/activities/user/id | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned. |
 
 ## Todo:
 
-| Method | URL                          | Description                                                                                                                                                                                                                         |
-| ------ | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET    | /api/activities/user/id      | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned. |
-| GET    | /api/activity-logs/user/id   | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return the activity log matching the `id` provided                                                                           |
-| GET    | /api/reflection-logs/user/id | Must provide `user`, a string matching username of a registered user. `id` is optional, if provided will return the reflection log matching the `id` provided.                                                                      |
+| Method | URL                          | Description                                                                                                                                                    |
+| ------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET    | /api/activity-logs/user/id   | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return the activity log matching the `id` provided      |
+| GET    | /api/reflection-logs/user/id | Must provide `user`, a string matching username of a registered user. `id` is optional, if provided will return the reflection log matching the `id` provided. |
