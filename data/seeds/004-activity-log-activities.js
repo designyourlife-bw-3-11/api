@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
         {
           // id should initialize to 1
           activity_log_id: 1, // using test activity log
-          activity_id: 0,
+          activity_id: 1,
           enjoyment: 9,
           engagement: 6,
           notes: "Always love boating!"
@@ -34,6 +34,34 @@ exports.seed = function(knex, Promise) {
           enjoyment: 9,
           engagement: 4,
           notes: "Gotta take a break!"
+        },
+        {
+          activity_log_id: 2,
+          activity_id: 3,
+          enjoyment: 5,
+          engagement: 10,
+          notes: "Tough problem with my hobby!"
+        },
+        {
+          activity_log_id: 2,
+          activity_id: 7,
+          enjoyment: 7,
+          engagement: 4,
+          notes: "Take my mind off of hard hobby with TV."
+        },
+        {
+          activity_log_id: 2,
+          activity_id: 8,
+          enjoyment: 9,
+          engagement: 9,
+          notes: "TV was boring, play games."
+        },
+        {
+          activity_log_id: 2,
+          activity_id: 10,
+          enjoyment: 7,
+          engagement: 8,
+          notes: "Dinner with family."
         }
       ]);
     });
