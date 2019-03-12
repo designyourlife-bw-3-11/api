@@ -46,7 +46,8 @@ Daily log of activities plus associated data about each activity
 activityLog = [
   {
     id: 1, // created by database when creating new activity log
-    date: 123456, // date in Unix Time Stamp format. Use
+    user_id: 0 // corresponding to user who created it
+    date: 123456, // date in Unix Time Stamp format
     outcomes: "Notes on how the day went",
     activities: [
       {
