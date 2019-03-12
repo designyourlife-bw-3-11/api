@@ -19,14 +19,14 @@ exports.seed = function(knex, Promise) {
             activity_id: 2,
             enjoyment: 9,
             engagement: 8,
-            notes: "Always love hiking!"
+            notes: "Found Pete!! After 3 months!"
           },
           {
             activity_log_id: 1,
             activity_id: 5,
             enjoyment: 8,
             engagement: 10,
-            notes: "Expanded my mind."
+            notes: "Made 3 new dog friends."
           },
           {
             activity_log_id: 1,

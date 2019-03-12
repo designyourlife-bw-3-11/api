@@ -13,8 +13,8 @@ exports.seed = function(knex, Promise) {
           },
           {
             user_id: 0,
-            name: "Hiking",
-            description: "Get walk out the door and up a hill!"
+            name: "Search for Pete, pet parakeet",
+            description: "That bird has been missing a long time."
           },
           {
             user_id: 0,
@@ -28,8 +28,8 @@ exports.seed = function(knex, Promise) {
           },
           {
             user_id: 0,
-            name: "Read a book",
-            description: "A wholesome book."
+            name: "Feed ham hocks to dogs at park",
+            description: "With owner permission of course."
           },
           {
             user_id: 0,
