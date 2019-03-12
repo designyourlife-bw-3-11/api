@@ -43,7 +43,7 @@ exports.up = function(knex, Promise) {
           .inTable("users")
           .onUpdate("CASCADE");
         // date of activity log
-        tbl.integer("date").unsigned();
+        tbl.string("date"); // integer type is a headache in pg
         // notes by user on how the day went
         tbl.text("outcomes");
       })
