@@ -73,10 +73,18 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema
-    .dropTableIfExists("test")
-    .dropTableIfExists("users")
-    .dropTableIfExists("activities")
-    .dropTableIfExists("activity-logs")
-    .dropTableIfExists("activity-log-activities");
+  return (
+    knex.schema
+      // had to use .raw method here to get access to CASCADE
+      // NOTE the type of quote used matters!
+      // .dropTableIfExists("test")
+      .raw('drop table if exists "test" CASCADE')
+      // .dropTableIfExists("users")
+      .raw('DROP TABLE IF EXISTS "users" CASCADE')
+      // .dropTableIfExists("activities")
+      .raw('DROP TABLE IF EXISTS "activities" CASCADE')
+      // .dropTableIfExists("activity-logs")
+      .raw('DROP TABLE IF EXISTS "activity-logs" CASCADE')
+      .raw('DROP TABLE IF EXISTS "activity-log-activities" CASCADE')
+  );
 };
