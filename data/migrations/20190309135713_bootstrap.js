@@ -1,5 +1,5 @@
 exports.up = function(knex, Promise) {
-  return (
+  return Promise.all([
     knex.schema
       // ***** test table *****
       .createTable("test", tbl => {
@@ -20,6 +20,7 @@ exports.up = function(knex, Promise) {
         tbl.string("password", 128).notNullable();
         tbl.timestamps(true, true);
       })
+      // ***** activities table *****
       .createTable("activities", tbl => {
         tbl.increments();
         tbl.integer("user_id");
@@ -30,9 +31,52 @@ exports.up = function(knex, Promise) {
         tbl.text("description");
         tbl.timestamps(true, true);
       })
-  );
+      // ***** activity logs table  *****
+      .createTable("activity-logs", tbl => {
+        // primary key
+        tbl.increments();
+        // foreign key -> user id of owner
+        tbl
+          .integer("user_id")
+          .unsigned()
+          .references("id")
+          .inTable("users")
+          .onUpdate("CASCADE");
+        // date of activity log
+        tbl.integer("date").unsigned();
+        // notes by user on how the day went
+        tbl.text("outcomes");
+      })
+      // ***** activity-log/activities table *****
+      .createTable("activity-log-activities", tbl => {
+        // primary key
+        tbl.increments();
+        // foreign key -> id of activity log
+        tbl
+          .integer("activity_log_id")
+          .unsigned()
+          .references("id")
+          .inTable("activity-logs")
+          .onUpdate("CASCADE");
+        // foreign key -> id of activity
+        tbl
+          .integer("activity_id")
+          .unsigned()
+          .references("id")
+          .inTable("activities")
+          .onUpdate("CASCADE");
+        tbl.integer("enjoyment").unsigned();
+        tbl.integer("engagement").unsigned();
+        tbl.text("notes");
+      })
+  ]);
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists("test").dropTableIfExists("users");
+  return knex.schema
+    .dropTableIfExists("test")
+    .dropTableIfExists("users")
+    .dropTableIfExists("activities")
+    .dropTableIfExists("activity-logs")
+    .dropTableIfExists("activity-log-activities");
 };
