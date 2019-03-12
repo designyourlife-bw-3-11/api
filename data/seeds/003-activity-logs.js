@@ -1,7 +1,7 @@
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries, reset ids
+  // Deletes ALL existing entries
   return knex("activity-logs")
-    .truncate()
+    .del()
     .then(function() {
       // Inserts seed entries
       return knex("activity-logs").insert([
