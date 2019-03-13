@@ -3,7 +3,8 @@ const db = require("../../data/dbConfig.js");
 module.exports = {
   getAll,
   getById,
-  addActivityLog
+  addActivityLog,
+  updateActivityLog
 };
 
 async function getAll(username) {
@@ -43,5 +44,21 @@ async function addActivityLog(activityLogData, activities) {
     return { id, id2 };
   } catch (error) {
     throw new Error(error);
+  }
+}
+
+async function updateActivityLog(activityLogData) {
+  const { id, date, outcomes } = activityLogData;
+  try {
+    const updatedId = await db("activity-logs")
+      .where({ id })
+      .update({ id, date, outcomes }, "id");
+    if (updatedId) {
+      return updatedId;
+    } else {
+      throw new Error("Error updating activity log.");
+    }
+  } catch (error) {
+    throw error;
   }
 }

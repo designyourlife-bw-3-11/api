@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const ActivityLogs = require("./activity-logs-module.js");
 const User = require("../user/user-module.js");
-// const ActivityLogActivities = require("../activity-log-activities/activity-log-activities-module.js");
+const ActivityLogActivities = require("../activity-log-activities/activity-log-activities-module.js");
 
 router.get("/:user/:id?", async (req, res) => {
   const username = req.params.user;
@@ -46,6 +46,26 @@ router.post("/:user", async (req, res) => {
         activities
       );
       res.status(200).json({ "activity added: ": ids });
+    } else {
+      res.status(400).json({ message: "Invalid username." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.put("/:user", async (req, res) => {
+  // updates activity-log data ONLY. to update activity-log-activities, next put
+  const { id, date, outcomes } = req.body;
+  const username = req.params.user;
+  try {
+    const user = await User.findBy({ username });
+    if (user) {
+      const activityLogData = { id, date, outcomes };
+      activityLogData.user_id = user.id;
+      console.log(activityLogData);
+      const [idUpdated] = await ActivityLogs.updateActivityLog(activityLogData);
+      res.status(200).json({ "activity updated: ": idUpdated });
     } else {
       res.status(400).json({ message: "Invalid username." });
     }
