@@ -5,6 +5,7 @@ const configMiddleware = require("./middleware.js");
 const authRouter = require("./auth/auth-router.js");
 const activitiesRouter = require("./activities/activities-router.js");
 const activityLogsRouter = require("./activity-logs/activity-logs-router.js");
+const reflectionLogsRouter = require("./reflection-logs/reflection-logs-router.js");
 
 const db = require("../data/dbConfig.js");
 
@@ -20,6 +21,8 @@ server.use("/api/auth", authRouter);
 server.use("/api/activities", activitiesRouter);
 // todo: protect this route, provides list of activity logs
 server.use("/api/activity-logs", activityLogsRouter);
+// todo: protect this route, provides list of reflection logs
+server.use("/api/reflection-logs", reflectionLogsRouter);
 // todo: un-protect this route once done with testing
 server.get("/", protect, (req, res) => {
   res.status(200).json({ message: "Server says hi." });

@@ -5,19 +5,21 @@ router.get("/:user/:id?", async (req, res) => {
   const username = req.params.user;
   const reflectionLogId = req.params.id;
   try {
-    if (activityLogId) {
+    if (reflectionLogId) {
       // get single reflection
-      let [reflectionLog] = await ReflectionLogs.getById(
+      const [reflectionLog] = await ReflectionLogs.getById(
         username,
-        activityLogId
+        reflectionLogId
       );
       res.status(200).json({ reflectionLog });
     } else {
       // get all reflection logs of user
-      let [reflectionLogs] = await ReflectionLogs.getAll(username);
+      const reflectionLogs = await ReflectionLogs.getAll(username);
       res.status(200).json({ reflectionLogs });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
+
+module.exports = router;
