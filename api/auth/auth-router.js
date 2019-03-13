@@ -16,6 +16,7 @@ router.post("/register", async (req, res) => {
   try {
     const saved = await User.add(user);
     res.status(201).json({
+      user_id: saved.id,
       username: saved.username,
       token
     });
@@ -33,6 +34,7 @@ router.post("/login", async (req, res) => {
     if (existing && bcrypt.compareSync(password, existing.password)) {
       const token = tokenSvc.generateToken(existing);
       res.status(200).json({
+        user_id: existing.id,
         message: `Welcome back ${existing.username}!`,
         token: token
       });
