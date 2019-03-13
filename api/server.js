@@ -12,14 +12,16 @@ const server = express();
 
 configMiddleware(server);
 
+const protect = require("./auth/auth-restrict-mw.js");
+
 // not protected, for login, register:
 server.use("/api/auth", authRouter);
 // todo: protect this route, provides list of activities
 server.use("/api/activities", activitiesRouter);
 // todo: protect this route, provides list of activity logs
 server.use("/api/activity-logs", activityLogsRouter);
-
-server.get("/", (req, res) => {
+// todo: un-protect this route once done with testing
+server.get("/", protect, (req, res) => {
   res.status(200).json({ message: "Server says hi." });
 });
 
