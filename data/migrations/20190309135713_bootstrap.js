@@ -70,6 +70,22 @@ exports.up = function(knex, Promise) {
         tbl.integer("engagement").unsigned();
         tbl.text("notes");
       })
+      // ***** reflection logs table *****
+      .createTable("reflection-logs", tbl => {
+        // primary key
+        tbl.increments();
+        // foreign key -> user id of owner
+        tbl
+          .integer("user_id")
+          .unsigned()
+          .references("id")
+          .inTable("users")
+          .onUpdate("CASCADE");
+        // reflection date, corresponding to day-beginning week
+        tbl.string("date");
+        // some notes about the week
+        tbl.text("reflection");
+      })
   ]);
 };
 

@@ -47,7 +47,7 @@ activityLog = [
   {
     id: 1, // created by database when creating new activity log
     user_id: 0 // corresponding to user who created it
-    date: 123456, // date in Unix Time Stamp format
+    date: "2019-03-14T06:00:00.000Z" // as returned by new Date('3/14/19')
     outcomes: "Notes on how the day went",
     activities: [
       {
@@ -73,42 +73,23 @@ activityLog = [
 
 ### **Reflection Log**
 
-Weekly log of activities and associated data bout the week.
+Weekly log of activities and associated data about the week.
 
 ```js
-// each week obj includes all activities from that week.)
-reflections = [
+reflectionLogs = [
   {
-    id: 1, // created by database when creating new reflection
-    date: 123456, // Unix Time stamp corresponding to new Date('week-starting sunday date')
-    notes: "optional reflection on the week",
-    activityLogs: [ // all activity logs for the week
-      {
-        // first activity log from the week
-      },
-      {
-        // second activity log from the week
-      },
-      ...
-    ]
-    activities: [ // all activities from the week, averages for enjoyment and engagement
-      {
-        id: 1,
-        name: "Activity Name",
-        description: "Activity Description",
-        enjoyment: 8, // <weekly avg for this week>
-        engagement: 9, // <weekly avg for this week>
-      },
-      {
-        id: 2,
-        name: "Activity Name",
-        description: "Activity Description",
-        enjoyment: 5, // <weekly avg for this week>
-        engagement: 3, // <weekly avg for this week>
-      },
-    ]
+    id: 1, // created by database when creating a new reflection
+    user_id: 0 // corresponding to user who created it
+    date: "2019-03-10T06:00:00.000Z", // as returned by new Date('3/10/19'), use date corresponding to day-beginning the week of the reflection
+    reflection: "Some text reflecting on the week"
+  },
+  {
+    id: 2,
+    user_id: 0 // corresponding to user who created it
+    date: "2019-03-17T06:00:00.000Z",
+    reflection: "Another good week"
   }
-]
+];
 ```
 
 ## The API publishes the following endpoints
@@ -127,7 +108,13 @@ reflections = [
 | POST   | /api/auth/register | Expects JSON conforming to spec: `User data for auth routes`. Returns error if user already exists. If registration is successful, returns username as submitted adn token data. |
 | POST   | /api/auth/login    | Expects JSON conforming to spec: `User data for auth routes`. If correct credentials, returns a welcome message and token data.                                                  |
 
-### Activities
+---
+
+---
+
+### (TODO) The following routes are protected, provide token returned from successful `register` or `login` as `Authorization` header
+
+### Activities - protected
 
 | Method | URL                     | Description                                                                                                                                                                                                                         |
 | ------ | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -136,7 +123,7 @@ reflections = [
 | PUT    | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity data conforming to spec. Note: must provide id for activity to be updated.                                                           |
 | DELETE | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for activity to be deleted, for example to delete activity with id 3: `{id: 3}`.                                                           |
 
-### Activity Logs
+### Activity Logs - protected
 
 | Method | URL                        | Description                                                                                                                                                                                                                                |
 | ------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -147,6 +134,11 @@ reflections = [
 
 ## Todo:
 
-| Method | URL                          | Description                                                                                                                                                    |
-| ------ | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET    | /api/reflection-logs/user/id | Must provide `user`, a string matching username of a registered user. `id` is optional, if provided will return the reflection log matching the `id` provided. |
+### Reflection Logs - protected
+
+| Method | URL                          | Description                                                                                                                                                                               |
+| ------ | ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET    | /api/reflection-logs/user/id | Must provide `user`, a string matching username of a registered user. `id` is optional, if provided will return the reflection log matching the `id` provided.                            |
+| POST   | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with reflection log data conforming to spec but do not provide id, this will be created by the database. |
+| PUT    | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with reflection log data conforming to spec. Note: must provide id for reflection to be updated.         |
+| DELETE | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for reflection log to be deleted, for example to delete reflection-log with id 3: `{id: 3}`.     |
