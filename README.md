@@ -134,13 +134,16 @@ reflections = [
 | GET    | /api/activities/user/id | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned. |
 | POST   | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity data conforming to spec but do not provide id, this will be created by the database.                                                 |
 | PUT    | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity data conforming to spec. Note: must provide id for activity to be updated.                                                           |
-| DELETE | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for activity to be deleted.                                                                                                                |
+| DELETE | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for activity to be deleted, for example to delete activity with id 3: `{id: 3}`.                                                           |
 
 ### Activity Logs
 
 | Method | URL                        | Description                                                                                                                                                                                                                                |
 | ------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | GET    | /api/activity-logs/user/id | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return the activity log matching the `id` provided. If `id` is not provided, all activities belonging to the user will be returned. |
+| POST   | /api/activity-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity log data conforming to spec but do not provide id, this will be created by the database.                                                    |
+| PUT    | /api/activity-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity log data conforming to spec. Note: must provide id for activity to be updated.                                                              |
+| DELETE | /api/activity-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for activity log to be deleted, for example to delete activity-log with id 3: `{id: 3}`.                                                          |
 
 ## Todo:
 
