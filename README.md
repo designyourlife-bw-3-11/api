@@ -132,8 +132,6 @@ reflectionLogs = [
 | PUT    | /api/activity-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity log data conforming to spec. Note: must provide id for activity to be updated.                                                              |
 | DELETE | /api/activity-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for activity log to be deleted, for example to delete activity-log with id 3: `{id: 3}`.                                                          |
 
-## Todo:
-
 ### Reflection Logs - protected
 
 | Method | URL                          | Description                                                                                                                                                                               |
