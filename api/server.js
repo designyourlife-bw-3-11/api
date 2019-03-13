@@ -15,16 +15,16 @@ configMiddleware(server);
 
 const protect = require("./auth/auth-restrict-mw.js");
 
+// **** api routes ****
 // not protected, for login, register:
 server.use("/api/auth", authRouter);
-// todo: protect this route, provides list of activities
-server.use("/api/activities", activitiesRouter);
-// todo: protect this route, provides list of activity logs
-server.use("/api/activity-logs", activityLogsRouter);
-// todo: protect this route, provides list of reflection logs
-server.use("/api/reflection-logs", reflectionLogsRouter);
-// todo: un-protect this route once done with testing
-server.get("/", protect, (req, res) => {
+// protected routes
+server.use("/api/activities", protect, activitiesRouter);
+server.use("/api/activity-logs", protect, activityLogsRouter);
+server.use("/api/reflection-logs", protect, reflectionLogsRouter);
+
+// **** testing routes ****
+server.get("/", (req, res) => {
   res.status(200).json({ message: "Server says hi." });
 });
 
