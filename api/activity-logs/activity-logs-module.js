@@ -24,9 +24,9 @@ async function getById(username, id) {
   }
 }
 
-async function addActivityLog(activityData, activities) {
+async function addActivityLog(activityLogData, activities) {
   try {
-    const [id] = await db("activity-logs").insert(activityData, "id");
+    const [id] = await db("activity-logs").insert(activityLogData, "id");
     // const id = 3;
     const activityLogActivities = activities.map(act => ({
       activity_log_id: id,
