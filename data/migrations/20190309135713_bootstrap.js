@@ -57,7 +57,8 @@ exports.up = function(knex, Promise) {
           .unsigned()
           .references("id")
           .inTable("activity-logs")
-          .onUpdate("CASCADE");
+          .onUpdate("CASCADE")
+          .onDelete("CASCADE");
         // foreign key -> id of activity
         tbl
           .integer("activity_id")

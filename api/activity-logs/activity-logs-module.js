@@ -4,7 +4,8 @@ module.exports = {
   getAll,
   getById,
   addActivityLog,
-  updateActivityLog
+  updateActivityLog,
+  deleteActivityLog
 };
 
 async function getAll(username) {
@@ -73,6 +74,20 @@ async function updateActivityLog(activityLogData, activities) {
       }
     });
     return updatedAlId;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function deleteActivityLog(delId) {
+  // console.log("deleteid: ", delId);
+  try {
+    const id = delId;
+    const deleted = await db("activity-logs")
+      .where({ id })
+      .del();
+    console.log("here:", deleted);
+    return deleted;
   } catch (error) {
     throw error;
   }
