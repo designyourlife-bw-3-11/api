@@ -52,6 +52,7 @@ activityLog = [
     activities: [
       {
         id: 1, // matches id of an activity,
+        ala_id: 4 // activity-log-activities id, used by db.
         name: "Boating", // matches name of activity
         enjoyment: 8,
         engagement: 9,
@@ -59,6 +60,7 @@ activityLog = [
       },
       {
         id: 2,
+        ala_id: 5,
         name: "Hiking",
         enjoyment: 5,
         engagement: 2,

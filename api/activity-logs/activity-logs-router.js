@@ -55,17 +55,21 @@ router.post("/:user", async (req, res) => {
 });
 
 router.put("/:user", async (req, res) => {
-  // updates activity-log data ONLY. to update activity-log-activities, next put
-  const { id, date, outcomes } = req.body;
+  // update activity log data
+  const { id, date, outcomes, activities } = req.body;
   const username = req.params.user;
   try {
     const user = await User.findBy({ username });
     if (user) {
       const activityLogData = { id, date, outcomes };
       activityLogData.user_id = user.id;
-      console.log(activityLogData);
-      const [idUpdated] = await ActivityLogs.updateActivityLog(activityLogData);
-      res.status(200).json({ "activity updated: ": idUpdated });
+      // console.log(activityLogData);
+      const [updated] = await ActivityLogs.updateActivityLog(
+        activityLogData,
+        activities
+      );
+      // console.log("here", updated);
+      res.status(200).json({ "Activity id updated: ": updated });
     } else {
       res.status(400).json({ message: "Invalid username." });
     }

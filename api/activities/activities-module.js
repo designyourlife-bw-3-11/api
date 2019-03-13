@@ -62,7 +62,7 @@ async function updateActivity(activityData) {
 async function deleteActivity(delId) {
   try {
     const id = delId;
-    const deleted = await db("activities")
+    const [deleted] = await db("activities")
       .where({ id })
       .del();
     return deleted;
