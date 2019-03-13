@@ -3,7 +3,8 @@ db = require("../../data/dbConfig.js");
 module.exports = {
   getAll,
   getById,
-  addReflectionLog
+  addReflectionLog,
+  updateReflectionLog
 };
 
 async function getAll(username) {
@@ -28,6 +29,18 @@ async function addReflectionLog(reflectionLogData) {
   try {
     const [rlId] = await db("reflection-logs").insert(reflectionLogData, "id");
     return rlId;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+async function updateReflectionLog(reflectionLogData) {
+  const { id, date, reflection } = reflectionLogData;
+  try {
+    const updatedRlId = await db("reflection-logs")
+      .where({ id })
+      .update({ date, reflection });
+    return updatedRlId;
   } catch (error) {
     throw new Error(error);
   }

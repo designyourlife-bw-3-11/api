@@ -41,4 +41,24 @@ router.post("/:user", async (req, res) => {
   }
 });
 
+router.put("/:user", async (req, res) => {
+  const { id, date, reflection } = req.body;
+  const username = req.params.user;
+  try {
+    const user = await User.findBy({ username });
+    if (user) {
+      const reflectionLogData = { id, date, reflection };
+      reflectionLogData.user_id = user.id;
+      const updated = await ReflectionLogs.updateReflectionLog(
+        reflectionLogData
+      );
+      res.status(200).json({ "Reflection logs updated": updated });
+    } else {
+      res.status(400).json({ message: "Invalid username." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
