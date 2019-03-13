@@ -4,7 +4,8 @@ module.exports = {
   getAll,
   getById,
   addReflectionLog,
-  updateReflectionLog
+  updateReflectionLog,
+  deleteReflectionLog
 };
 
 async function getAll(username) {
@@ -41,6 +42,18 @@ async function updateReflectionLog(reflectionLogData) {
       .where({ id })
       .update({ date, reflection });
     return updatedRlId;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+async function deleteReflectionLog(delId) {
+  try {
+    const id = delId;
+    const deleted = db("reflection-logs")
+      .where({ id })
+      .del();
+    return deleted;
   } catch (error) {
     throw new Error(error);
   }

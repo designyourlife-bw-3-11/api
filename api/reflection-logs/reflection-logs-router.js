@@ -61,4 +61,30 @@ router.put("/:user", async (req, res) => {
   }
 });
 
+router.delete("/:user", async (req, res) => {
+  const delId = req.body.id;
+  const username = req.params.user;
+  try {
+    const user = await User.findBy({ username });
+    if (user) {
+      const deleted = await ReflectionLogs.deleteReflectionLog(delId);
+      if (deleted) {
+        res
+          .status(200)
+          .json({ message: `Deleted ${deleted} reflection logs.` });
+      } else {
+        res
+          .status(400)
+          .json({
+            message: `Provided id ${delId} does not match any reflection logs.`
+          });
+      }
+    } else {
+      res.status(400).json({ message: "Invalid username." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
