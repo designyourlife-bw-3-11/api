@@ -2,7 +2,8 @@ db = require("../../data/dbConfig.js");
 
 module.exports = {
   getAll,
-  getById
+  getById,
+  addReflectionLog
 };
 
 async function getAll(username) {
@@ -20,5 +21,14 @@ async function getById(username, id) {
     return reflectionLog;
   } catch (error) {
     throw new Error("Could not fetch reflection log.");
+  }
+}
+
+async function addReflectionLog(reflectionLogData) {
+  try {
+    const [rlId] = await db("reflection-logs").insert(reflectionLogData, "id");
+    return rlId;
+  } catch (error) {
+    throw new Error(error);
   }
 }
