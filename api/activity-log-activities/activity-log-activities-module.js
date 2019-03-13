@@ -9,7 +9,8 @@ async function getActivities(activityLogId) {
     const ala = "activity-log-activities";
     const activities = await db
       .select(
-        `activities.id`,
+        "activities.id",
+        `${ala}.id as ala_id`,
         "name",
         `${ala}.enjoyment`,
         `${ala}.engagement`,

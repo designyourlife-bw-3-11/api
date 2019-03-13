@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const ActivityLogs = require("./activity-logs-module.js");
+const User = require("../user/user-module.js");
 const ActivityLogActivities = require("../activity-log-activities/activity-log-activities-module.js");
 
 router.get("/:user/:id?", async (req, res) => {
@@ -25,6 +26,74 @@ router.get("/:user/:id?", async (req, res) => {
         return { ...log, activities };
       });
       Promise.all(returnData).then(data => res.status(200).json(data));
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.post("/:user", async (req, res) => {
+  const { date, outcomes, activities } = req.body;
+  const username = req.params.user;
+  try {
+    const user = await User.findBy({ username });
+    if (user) {
+      const activityLogData = { date, outcomes };
+      activityLogData.user_id = user.id;
+      // console.log(activityLogData);
+      const ids = await ActivityLogs.addActivityLog(
+        activityLogData,
+        activities
+      );
+      res.status(200).json({ "activity added: ": ids });
+    } else {
+      res.status(400).json({ message: "Invalid username." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.put("/:user", async (req, res) => {
+  // update activity log data
+  const { id, date, outcomes, activities } = req.body;
+  const username = req.params.user;
+  try {
+    const user = await User.findBy({ username });
+    if (user) {
+      const activityLogData = { id, date, outcomes };
+      activityLogData.user_id = user.id;
+      // console.log(activityLogData);
+      const [updated] = await ActivityLogs.updateActivityLog(
+        activityLogData,
+        activities
+      );
+      // console.log("here", updated);
+      res.status(200).json({ "Activity id updated: ": updated });
+    } else {
+      res.status(400).json({ message: "Invalid username." });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete("/:user", async (req, res) => {
+  let delId = req.body.id;
+  const username = req.params.user;
+  try {
+    const user = await User.findBy({ username });
+    if (user) {
+      const deleted = await ActivityLogs.deleteActivityLog(delId);
+      if (deleted) {
+        res.status(200).json({ message: `Deleted ${deleted} activity logs.` });
+      } else {
+        res
+          .status(400)
+          .json({ message: "Provided id does not match any activity logs." });
+      }
+    } else {
+      res.status(400).json({ message: "Invalid username." });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
