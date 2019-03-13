@@ -22,7 +22,7 @@ Used for register and login
 activity = {
   id: 1, // activity id
   user_id: 0, // id matches user id of creator. 0 for starter activities (available to anyone)
-  name: "first activity",
+  name: "first activity", // required
   description: "How about this activity?" // optional
 };
 
@@ -111,13 +111,33 @@ reflections = [
 
 ## The API publishes the following endpoints
 
+### Testing
+
+| Method | URL         | Description                                                                        |
+| ------ | ----------- | ---------------------------------------------------------------------------------- |
+| GET    | /api/       | Returns JSON: `{ "message": "Server says hi." }` if server is running              |
+| GET    | /api/testDb | Returns JSON with some test data if the server's connection to the database is OK. |
+
+### Users
+
+| Method | URL                | Description                                                                                                                                                                      |
+| ------ | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | /api/auth/register | Expects JSON conforming to spec: `User data for auth routes`. Returns error if user already exists. If registration is successful, returns username as submitted adn token data. |
+| POST   | /api/auth/login    | Expects JSON conforming to spec: `User data for auth routes`. If correct credentials, returns a welcome message and token data.                                                  |
+
+### Activities
+
+| Method | URL                     | Description                                                                                                                                                                                                                         |
+| ------ | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET    | /api/activities/user/id | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned. |
+| POST   | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity data conforming to spec but do not provide id, this will be created by the database.                                                 |
+| PUT    | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity data conforming to spec. Note: must provide id for activity to be updated.                                                           |
+| DELETE | /api/activities/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for activity to be deleted.                                                                                                                |
+
+### Activity Logs
+
 | Method | URL                        | Description                                                                                                                                                                                                                                |
 | ------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| GET    | /api/                      | Returns JSON: `{ "message": "Server says hi." }` if server is running                                                                                                                                                                      |
-| GET    | /api/testDb                | Returns JSON with some test data if the server's connection to the database is OK.                                                                                                                                                         |
-| POST   | /api/auth/register         | Expects JSON conforming to spec: `User data for auth routes`. Returns error if user already exists. If registration is successful, returns username as submitted adn token data.                                                           |
-| POST   | /api/auth/login            | Expects JSON conforming to spec: `User data for auth routes`. If correct credentials, returns a welcome message and token data.                                                                                                            |
-| GET    | /api/activities/user/id    | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return single activity matching `id`. If `id` is not provided, the entire list of activities created by `user` are returned.        |
 | GET    | /api/activity-logs/user/id | Must provide `user`, string matching username of a registered user. `id` is optional, if provided will return the activity log matching the `id` provided. If `id` is not provided, all activities belonging to the user will be returned. |
 
 ## Todo:
