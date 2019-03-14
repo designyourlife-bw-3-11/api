@@ -28,12 +28,8 @@ async function getById(username, id) {
 
 async function addActivity(activityData) {
   try {
-    if (activityData.name) {
-      const [id] = await db("activities").insert(activityData, "id");
-      return id;
-    } else {
-      throw "Please provide activity name.";
-    }
+    const [id] = await db("activities").insert(activityData, "id");
+    return id;
   } catch (error) {
     throw error;
   }
@@ -62,7 +58,7 @@ async function updateActivity(activityData) {
 async function deleteActivity(delId) {
   try {
     const id = delId;
-    const [deleted] = await db("activities")
+    const deleted = await db("activities")
       .where({ id })
       .del();
     return deleted;

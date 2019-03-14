@@ -102,6 +102,9 @@ exports.down = function(knex, Promise) {
       .raw('DROP TABLE IF EXISTS "activities" CASCADE')
       // .dropTableIfExists("activity-logs")
       .raw('DROP TABLE IF EXISTS "activity-logs" CASCADE')
+      // .dropTableIfExists("activity-log-activities")
       .raw('DROP TABLE IF EXISTS "activity-log-activities" CASCADE')
+      // .dropTableIfExists("reflection-logs")
+      .raw('DROP TABLE IF EXISTS "reflection-logs" CASCADE')
   );
 };
