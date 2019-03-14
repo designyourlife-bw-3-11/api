@@ -45,7 +45,7 @@ router.post("/:user", async (req, res) => {
         activityLogData,
         activities
       );
-      res.status(200).json({ "activity log added: ": ids });
+      res.status(201).json({ "activity log added: ": ids });
     } else {
       res.status(400).json({ message: "Invalid username." });
     }

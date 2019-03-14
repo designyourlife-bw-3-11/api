@@ -6,6 +6,7 @@ exports.seed = function(knex, Promise) {
         // Inserts seed entries
         return knex("activity-log-activities").insert([
           // user_id = 0 for starter activity log
+          // create 2 activity logs, each containing 4 activities
           {
             // id should initialize to 1
             activity_log_id: 1, // using test activity log
