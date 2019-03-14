@@ -11,6 +11,12 @@ router.get("/:user/:id?", async (req, res) => {
     if (activityLogId) {
       // get single activity
       let [activityLog] = await ActivityLogs.getById(username, activityLogId);
+      console.log(activityLog);
+      if (!activityLog) {
+        // no activity log found
+        res.status(204).json();
+        return;
+      }
       // look up activities-log-activities
       const activities = await ActivityLogActivities.getActivities(
         activityLogId
@@ -55,6 +61,11 @@ router.post("/:user", async (req, res) => {
 });
 
 router.put("/:user", async (req, res) => {
+  // check required fields
+  if (!req.body.id) {
+    res.status(400).json({ message: "Activity id is required" });
+    return;
+  }
   // update activity log data
   const { id, date, outcomes, activities } = req.body;
   const username = req.params.user;
@@ -79,6 +90,11 @@ router.put("/:user", async (req, res) => {
 });
 
 router.delete("/:user", async (req, res) => {
+  // check required fields
+  if (!req.body.id) {
+    res.status(400).json({ message: "Activity log id is required" });
+    return;
+  }
   let delId = req.body.id;
   const username = req.params.user;
   try {

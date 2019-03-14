@@ -86,7 +86,7 @@ async function deleteActivityLog(delId) {
     const deleted = await db("activity-logs")
       .where({ id })
       .del();
-    console.log("here:", deleted);
+    // console.log("here:", deleted);
     return deleted;
   } catch (error) {
     throw error;
