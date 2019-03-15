@@ -92,6 +92,31 @@ reflectionLogs = [
 ];
 ```
 
+### **User data for users routes**:
+
+Used by users with role 0 to modify user data
+
+```js
+users: [
+  {
+    id: 1,
+    username: "admin",
+    password: "hashed password",
+    role: 0,
+    created_at: "2019-03-15T14:42:19.018Z",
+    updated_at: "2019-03-15T14:42:19.018Z"
+  },
+  {
+    id: 2,
+    username: "testUser",
+    password: "hashed password",
+    role: 1,
+    created_at: "2019-03-15T14:42:19.018Z",
+    updated_at: "2019-03-15T14:42:19.018Z"
+  }
+];
+```
+
 ## The API publishes the following endpoints
 
 ### Testing
@@ -112,7 +137,7 @@ reflectionLogs = [
 
 ---
 
-### (TODO) The following routes are protected, provide token returned from successful `register` or `login` as `Authorization` header
+### The following routes are protected. Provide token returned from successful `register` or `login` as `Authorization` header
 
 ### Activities - protected
 
@@ -132,8 +157,6 @@ reflectionLogs = [
 | PUT    | /api/activity-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with activity log data conforming to spec. Note: must provide id for activity to be updated.                                                              |
 | DELETE | /api/activity-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for activity log to be deleted, for example to delete activity-log with id 3: `{id: 3}`.                                                          |
 
-## Todo:
-
 ### Reflection Logs - protected
 
 | Method | URL                          | Description                                                                                                                                                                               |
@@ -142,3 +165,12 @@ reflectionLogs = [
 | POST   | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with reflection log data conforming to spec but do not provide id, this will be created by the database. |
 | PUT    | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with reflection log data conforming to spec. Note: must provide id for reflection to be updated.         |
 | DELETE | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for reflection log to be deleted, for example to delete reflection-log with id 3: `{id: 3}`.     |
+
+### The following routes are protected, AND restricted. Provide token returned from successful `login` as `Authorization` header. Only users with role `0` set in the token may access these routes.
+
+### Users - protected, restricted
+
+| Method | URL           | Description                                                                                                                 |
+| ------ | ------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| GET    | /api/users/id | `id` is optional, if provided will return user matching `id`, otherwise returns a list of all registered users.             |
+| PUT    | /api/users    | Expects JSON with user data conforming to spec. This is used by an admin to change another user's role (or other user data) |

@@ -6,6 +6,12 @@ const localPgConnection = {
   user: "test",
   password: "pass"
 };
+const localPgConnectionTESTING = {
+  host: "localhost",
+  database: "dgn_life_testing",
+  user: "test",
+  password: "pass"
+};
 
 const prodDbConnection = process.env.DATABASE_URL || localPgConnection;
 
@@ -26,6 +32,17 @@ module.exports = {
       directory: "./data/seeds"
     }
     // useNullAsDefault: true // for sqlite
+  },
+
+  testing: {
+    client: "pg",
+    connection: localPgConnectionTESTING,
+    migrations: {
+      directory: "./data/migrations"
+    },
+    seeds: {
+      directory: "./data/seeds"
+    }
   },
 
   production: {

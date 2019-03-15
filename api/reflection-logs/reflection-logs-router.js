@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const ReflectionLogs = require("./reflection-logs-module.js");
-const User = require("../user/user-module.js");
+const User = require("../users/users-module.js");
 
 router.get("/:user/:id?", async (req, res) => {
   const username = req.params.user;
@@ -73,11 +73,9 @@ router.delete("/:user", async (req, res) => {
           .status(200)
           .json({ message: `Deleted ${deleted} reflection logs.` });
       } else {
-        res
-          .status(400)
-          .json({
-            message: `Provided id ${delId} does not match any reflection logs.`
-          });
+        res.status(400).json({
+          message: `Provided id ${delId} does not match any reflection logs.`
+        });
       }
     } else {
       res.status(400).json({ message: "Invalid username." });

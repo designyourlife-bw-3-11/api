@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret = process.env.JWT_SECRET;
+const secret = process.env.JWT_SECRET || "testing secret";
 
 module.exports = {
   generateToken
@@ -8,7 +8,8 @@ module.exports = {
 function generateToken(user) {
   const payload = {
     subject: user.id,
-    username: user.username
+    username: user.username,
+    role: user.role
   };
 
   const options = {
