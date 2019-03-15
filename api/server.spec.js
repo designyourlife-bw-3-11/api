@@ -7,8 +7,10 @@ const db = require("../data/dbConfig.js");
 const tokenSvc = require("./auth/token-service.js");
 
 const secret = process.env.JWT_SECRET || "testing secret";
-const user = { id: 2, username: "testUser" };
+const user = { id: 2, username: "testUser", role: 1 };
+const adminUser = { id: 1, username: "admin", role: 0 };
 const token = tokenSvc.generateToken(user);
+const tokenAdmin = tokenSvc.generateToken(adminUser);
 const activitiesRouterURL = `/api/activities/${user.username}`;
 const activityLogRouterURL = `/api/activity-logs/${user.username}`;
 const authRouterURL = `/api/auth/`;
@@ -435,10 +437,61 @@ describe("server.js", () => {
   });
 
   describe("user-router.js", () => {
+    // route should be protected
+    it("should be a protected route", async () => {
+      const res = await request(server).get(`${usersURL}`);
+      expect(res.status).toBe(401);
+    });
+    // route should be restricted to role:0
+    it("should be a restricted route", async () => {
+      const res = await request(server)
+        .get(`${usersURL}`)
+        .set("Authorization", token);
+      expect(res.status).toBe(401);
+    });
     describe("GET", () => {
-      it("should return a list of users", async () => {
-        const res = await request(server).get(`${usersURL}`);
+      // if logged in as admin, return a list of users
+      it("should return a list of users if no id is provided", async () => {
+        const res = await request(server)
+          .get(`${usersURL}`)
+          .set("Authorization", tokenAdmin);
         expect(res.status).toBe(200);
+        expect(res.body.users).toEqual(expect.any(Array));
+      });
+      // return a single user matching provided id
+      it("should return a single user matching id", async () => {
+        const res = await request(server)
+          .get(`${usersURL}/1`)
+          .set("Authorization", tokenAdmin);
+        expect(res.status).toBe(200);
+        expect(res.body.id).toEqual(1);
+      });
+    });
+    describe("PUT", () => {
+      // update a user's role
+      it("should update a user's role", async () => {
+        // get a user
+        const resUserStart = await request(server)
+          .get(`${usersURL}/3`)
+          .set("Authorization", tokenAdmin);
+        // check user role
+        expect(resUserStart.body.role).toBe(1);
+        // update user's role
+        const updatedUser = {
+          ...resUserStart.body,
+          role: 0
+        };
+        const resPut = await request(server)
+          .put(`${usersURL}`)
+          .send(updatedUser)
+          .set("Authorization", tokenAdmin);
+        expect(resPut.status).toBe(200);
+        // check that role is updated
+        const resUserUpdated = await request(server)
+          .get(`${usersURL}/3`)
+          .set("Authorization", tokenAdmin);
+        // check user role
+        expect(resUserUpdated.body.role).toBe(0);
       });
     });
   });

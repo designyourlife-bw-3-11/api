@@ -3,7 +3,8 @@ const db = require("../../data/dbConfig.js");
 module.exports = {
   add,
   findBy,
-  getAll
+  getAll,
+  updateUser
 };
 
 async function add(user) {
@@ -32,6 +33,22 @@ async function getAll() {
     const users = await db("users");
     // console.log(users);
     return users;
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+async function updateUser(user) {
+  try {
+    const id = user.id;
+    const updated = await db("users")
+      .where({ id })
+      .update({ ...user });
+    if (updated) {
+      return updated;
+    } else {
+      throw new Error("Error updating user.");
+    }
   } catch (error) {
     throw new Error(error);
   }
