@@ -18,6 +18,7 @@ exports.up = function(knex, Promise) {
           .notNullable()
           .unique();
         tbl.string("password", 128).notNullable();
+        tbl.integer("role").notNullable();
         tbl.timestamps(true, true);
       })
       // ***** activities table *****

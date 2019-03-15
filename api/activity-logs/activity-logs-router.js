@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const ActivityLogs = require("./activity-logs-module.js");
-const User = require("../user/user-module.js");
+const User = require("../users/users-module.js");
 const ActivityLogActivities = require("../activity-log-activities/activity-log-activities-module.js");
 
 router.get("/:user/:id?", async (req, res) => {
@@ -11,7 +11,7 @@ router.get("/:user/:id?", async (req, res) => {
     if (activityLogId) {
       // get single activity
       let [activityLog] = await ActivityLogs.getById(username, activityLogId);
-      console.log(activityLog);
+      // console.log(activityLog);
       if (!activityLog) {
         // no activity log found
         res.status(204).json();

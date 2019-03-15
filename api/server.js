@@ -6,6 +6,7 @@ const authRouter = require("./auth/auth-router.js");
 const activitiesRouter = require("./activities/activities-router.js");
 const activityLogsRouter = require("./activity-logs/activity-logs-router.js");
 const reflectionLogsRouter = require("./reflection-logs/reflection-logs-router.js");
+const usersRouter = require("./users/users-router.js");
 
 const db = require("../data/dbConfig.js");
 
@@ -22,6 +23,8 @@ server.use("/api/auth", authRouter);
 server.use("/api/activities", protect, activitiesRouter);
 server.use("/api/activity-logs", protect, activityLogsRouter);
 server.use("/api/reflection-logs", protect, reflectionLogsRouter);
+// protected, role-restricted routes
+server.use("/api/users", usersRouter);
 
 // **** testing routes ****
 server.get("/", (req, res) => {

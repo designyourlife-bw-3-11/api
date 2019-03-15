@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Activities = require("../activities/activities-module.js");
-const User = require("../user/user-module.js");
+const User = require("../users/users-module.js");
 
 router.get("/:user/:id?", async (req, res) => {
   const username = req.params.user;

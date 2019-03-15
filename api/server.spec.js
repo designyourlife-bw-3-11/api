@@ -1,17 +1,23 @@
 const request = require("supertest");
+const jwt = require("jsonwebtoken");
 
 const server = require("./server.js");
 
 const db = require("../data/dbConfig.js");
-const tokenSvc = require("./auth/token-service");
+const tokenSvc = require("./auth/token-service.js");
 
+const secret = process.env.JWT_SECRET || "testing secret";
 const user = { id: 2, username: "testUser" };
 const token = tokenSvc.generateToken(user);
 const activitiesRouterURL = `/api/activities/${user.username}`;
 const activityLogRouterURL = `/api/activity-logs/${user.username}`;
+const authRouterURL = `/api/auth/`;
+const usersURL = `/api/users/`;
 
 // notes:
 // - seed data currently places:
+//    testUser, password = pass
+//    admin,  password = password
 //    10 activities
 //      activity ids begin at 1
 //    2 activity logs containing 4 activities.
@@ -365,5 +371,75 @@ describe("server.js", () => {
         expect(resGetAfter.status).toBe(204);
       });
     }); // end DELETE TESTS
+  });
+
+  describe("auth-router.js", () => {
+    describe("/login", () => {
+      // login should log in a registered user
+      it("should return 200", async () => {
+        const res = await request(server)
+          .post(`${authRouterURL}/login`)
+          .send({ username: "testUser", password: "pass" });
+        expect(res.status).toBe(200);
+      });
+      // login should return a valid token for good login
+      it("should return a valid token", async () => {
+        const res = await request(server)
+          .post(`${authRouterURL}/login`)
+          .send({ username: "testUser", password: "pass" });
+        const verify = jwt.verify(res.body.token, secret);
+        expect(verify).toEqual(expect.any(Object));
+        // console.log(verify);
+      });
+      // login should return role "0" for admin, "1" for testUser vc
+      it("should return correct role", async () => {
+        const resAdmin = await request(server)
+          .post(`${authRouterURL}/login`)
+          .send({ username: "admin", password: "password" });
+        const resUser = await request(server)
+          .post(`${authRouterURL}/login`)
+          .send({ username: "testUser", password: "pass" });
+        const verifyAdmin = jwt.verify(resAdmin.body.token, secret);
+        expect(verifyAdmin.role).toEqual(0);
+        const verifyUser = jwt.verify(resUser.body.token, secret);
+        expect(verifyUser.role).toEqual(1);
+      });
+    });
+    describe("/register", () => {
+      // register should return 400 if username or password are missing
+      it("should return 400 if no username or password", async () => {
+        const resNoUser = await request(server)
+          .post(`${authRouterURL}/register`)
+          .send({ username: "", password: "something" });
+        const resNoPass = await request(server)
+          .post(`${authRouterURL}/register`)
+          .send({ username: "someuser", password: "" });
+        expect(resNoUser.status).toBe(400);
+        expect(resNoPass.status).toBe(400);
+      });
+      // register should create new user
+      it("should create new user", async () => {
+        const res = await request(server)
+          .post(`${authRouterURL}/register`)
+          .send({ username: "newUser1", password: "newPassword" });
+        expect(res.status).toBe(201);
+      });
+      // register should create user with role: 1
+      it("should register a new user with role:1", async () => {
+        const res = await request(server)
+          .post(`${authRouterURL}/register`)
+          .send({ username: "newUser2", password: "newPassword" });
+        expect(res.body.role).toBe(1);
+      });
+    });
+  });
+
+  describe("user-router.js", () => {
+    describe("GET", () => {
+      it("should return a list of users", async () => {
+        const res = await request(server).get(`${usersURL}`);
+        expect(res.status).toBe(200);
+      });
+    });
   });
 }); // end tests

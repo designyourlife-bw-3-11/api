@@ -13,8 +13,8 @@ exports.seed = function(knex, Promise) {
       .then(function() {
         // Inserts seed entries
         return knex("users").insert([
-          { username: "admin", password: adminPassword },
-          { username: "testUser", password: testUserPassword }
+          { username: "admin", password: adminPassword, role: 0 },
+          { username: "testUser", password: testUserPassword, role: 1 }
         ]);
       })
   );
