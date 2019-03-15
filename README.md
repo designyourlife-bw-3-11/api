@@ -112,7 +112,7 @@ reflectionLogs = [
 
 ---
 
-### (TODO) The following routes are protected, provide token returned from successful `register` or `login` as `Authorization` header
+### The following routes are protected, provide token returned from successful `register` or `login` as `Authorization` header
 
 ### Activities - protected
 
@@ -140,3 +140,11 @@ reflectionLogs = [
 | POST   | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with reflection log data conforming to spec but do not provide id, this will be created by the database. |
 | PUT    | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with reflection log data conforming to spec. Note: must provide id for reflection to be updated.         |
 | DELETE | /api/reflection-logs/user    | Must provide `user`, string matching username of a registered user. Expects JSON with id for reflection log to be deleted, for example to delete reflection-log with id 3: `{id: 3}`.     |
+
+### The following routes are protected, AND restricted provide token returned from successful `register` or `login` as `Authorization` header. Only users with role `0` set in the token may access these routes.
+
+### Users - protected, restricted
+
+| Method | URL        | Description                             |
+| ------ | ---------- | --------------------------------------- |
+| GET    | /api/users | Returns a list of all registered users. |

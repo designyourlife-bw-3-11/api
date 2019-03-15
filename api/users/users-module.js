@@ -27,8 +27,10 @@ async function findBy(filter) {
 }
 
 async function getAll() {
+  // console.log("here");
   try {
     const users = await db("users");
+    // console.log(users);
     return users;
   } catch (error) {
     throw new Error(error);
