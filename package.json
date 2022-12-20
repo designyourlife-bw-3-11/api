@@ -24,7 +24,7 @@
     "express": "^4.17.1",
     "helmet": "^3.18.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.16.5",
+    "knex": "^2.3.0",
     "knex-cleaner": "^1.1.4",
     "lodash": "^4.17.11",
     "node": "^11.15.0",
